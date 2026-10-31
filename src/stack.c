@@ -4,6 +4,8 @@
 
 #include "stack.h"
 
+// stack_t *stack = create_stack(10);
+
 void *create_stack(int size)
 {
     stack_t *stack = NULL;
@@ -18,7 +20,7 @@ void *create_stack(int size)
     }
 
     stack->ptr = 0;
-    stack->size = 0;
+    stack->size = size;
 
     return stack;
 }
@@ -59,3 +61,7 @@ int stack_is_empty(stack_t *stack)
     return stack->ptr == 0;
 }
 
+int stack_peek(stack_t *stack)
+{
+    return stack->ptr;
+}

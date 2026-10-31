@@ -21,6 +21,7 @@ set_target_properties(stack_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
 # target_link_libraries(${PROJECT_NAME} PRIVATE stack)
 
 # #
+# Static Library, an archive file with a .a extension
 # Create an Archive File, and use it.
 # 10.26.26
 # #
