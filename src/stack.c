@@ -4,8 +4,6 @@
 
 #include "stack.h"
 
-// stack_t *stack = create_stack(10);
-
 stack_t *create_stack(int size)
 {
     stack_t *stack = NULL;
