@@ -14,11 +14,8 @@ set_target_properties(stack PROPERTIES IMPORTED_LOCATION
     "${CMAKE_CURRENT_SOURCE_DIR}/build/libstack_static.a")
 
 target_include_directories(stack_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
 set_target_properties(stack_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
-
-# add_executable(${PROJECT_NAME} ${SRC}/main.c)
-
-# target_link_libraries(${PROJECT_NAME} PRIVATE stack)
 
 # #
 # Static Library, an archive file with a .a extension

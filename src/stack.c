@@ -6,7 +6,7 @@
 
 // stack_t *stack = create_stack(10);
 
-void *create_stack(int size)
+stack_t *create_stack(int size)
 {
     stack_t *stack = NULL;
 
@@ -33,7 +33,7 @@ void stack_push(stack_t *stack, const int item)
         exit(EXIT_FAILURE);
     }
 
-    stack->name[stack->ptr] = item;
+    stack->data[stack->ptr] = item;
     stack->ptr++;
 
     printf("stack->[%d]\n", item);
