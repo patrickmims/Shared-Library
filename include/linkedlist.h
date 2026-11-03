@@ -11,8 +11,10 @@ struct Node
     struct Node *next;
 };
 
-FILE *linkedlist_error();
+FILE *list_error();
 void *new_node();
 void list_insert(void **, const int);
-
+/* To be implemented
+ */
+void list_destroy(struct Node *);
 #endif

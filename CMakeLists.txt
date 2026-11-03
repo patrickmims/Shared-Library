@@ -7,15 +7,23 @@ set(SRC "src")
 include_directories(include)
 include_directories(${PROJECT_SOURCE_DIR})
 
-add_library(stack_static STATIC ${SRC}/stack.c)
+add_library(ds_static STATIC 
+    ${SRC}/set.c 
+    ${SRC}/stack.c 
+    ${SRC}/linkedlist.c)
+
+add_library(set STATIC IMPORTED)
 add_library(stack STATIC IMPORTED)
+add_library(linkedlist STATIC IMPORTED)
 
 set_target_properties(stack PROPERTIES IMPORTED_LOCATION 
-    "${CMAKE_CURRENT_SOURCE_DIR}/build/libstack_static.a")
+    "${CMAKE_CURRENT_SOURCE_DIR}/build/libds_static.a")
 
-target_include_directories(stack_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ds_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-set_target_properties(stack_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
+set_target_properties(ds_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+install(TARGETS ds_static ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 # #
 # Static Library, an archive file with a .a extension

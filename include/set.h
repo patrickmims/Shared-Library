@@ -1,16 +1,38 @@
 #ifndef SET_H
 #define SET_H
 
-void set_init(Set *,int (*)(const void *, const  void *), void (*)(void *));
-int set_difference(Set *, const Set *, const Set *);
-int set_insert(Set *, const void *);
-int set_intersection(Set *, const Set *, const Set *);
-int set_is_equal(const Set *, const Set *);
-int set_is_member(const Set *, const  void *);
-int set_is_subset(const Set *, const Set *);
-int set_remove(Set *, void **);
-int set_size(const Set *);
-int set_union(Set *, const Set *, const Set *);
-void set_destroy(Set *);
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Node 
+{
+    void *data;
+    struct Node *next;
+} node_t;
+
+typedef struct List
+{
+    int size;
+    int (*match)(const void *key1, const void *key2);
+    void (*destroy)(void *data);
+    node_t *head;
+    node_t *tail;
+} list_t;
+
+typedef list_t set_t; 
+
+void list_init(list_t *, void (*)(void *));
+void set_init(set_t *, int (*)(const void *, const  void *), void (*)(void *));
+int set_difference(set_t *, const set_t *, const set_t *);
+int set_insert(set_t *, const void *);
+int set_intersection(set_t *, const set_t *, const set_t *);
+int set_is_equal(const set_t *, const set_t *);
+int set_is_member(const set_t *, const  void *);
+int set_is_subset(const set_t *, const set_t *);
+int set_remove(set_t *, void **);
+int set_size(const set_t *);
+int set_union(set_t *, const set_t *, const set_t *);
+void set_destroy(set_t *);
 
 #endif
