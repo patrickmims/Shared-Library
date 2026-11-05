@@ -1,4 +1,5 @@
 #include "set.h"
+#include <stdlib.h>
 
 /* * 
  * Set Interface
@@ -12,6 +13,7 @@
  * member is not used by linked list and is therefore not  set by list_init. * The runtime complexity of set_init is the same as list_init, of O(1).
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/*
 void list_init(list_t *list, void (*destroy)(void *data))
 {
     list->size = 0;
@@ -23,11 +25,42 @@ void list_init(list_t *list, void (*destroy)(void *data))
 
     return;
 }
+*/
 
-void set_init(set_t *set,
-        int (*match)(const void *key1, const void *key2), 
-        void (*destroy)(void *data))
+// try this example: github.com/barrust/set
+
+void *memory()
 {
-    list_init(set, destroy);
-    set->match = match;
+    void *memory = NULL;
+
+    if((memory = malloc(sizeof(void *))) == NULL)
+        exit(EXIT_FAILURE);
+
+    return memory;
+}
+
+void set_init(set_t *set)
+{
+    set->size = 0;
+    set->head = NULL;
+    set->tail = NULL;
+    // set->destroy = destroy;
+
+    puts("set has been initialized...");
+}
+
+void set_destroy(set_t *set)
+{
+    void *data = NULL; 
+
+    /*
+    while(set_size(set) > 0) 
+    {
+        if(list_rem_next(set, NULL, (void **)&data) == 0 && list->destroy != NULL)
+        {
+            list->destroy(data);
+        }
+    }
+    memset(set, 0, sizeof(set_t))
+    */
 }

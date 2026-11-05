@@ -5,25 +5,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Node 
+typedef struct
 {
     void *data;
     struct Node *next;
 } node_t;
 
-typedef struct List
+typedef struct Set 
 {
     int size;
-    int (*match)(const void *key1, const void *key2);
-    void (*destroy)(void *data);
     node_t *head;
     node_t *tail;
-} list_t;
+//    int (*match)(const void *key1, const void *key2);
+//    void (*destroy)(void *data);
+} set_t;
 
-typedef list_t set_t; 
-
-void list_init(list_t *, void (*)(void *));
-void set_init(set_t *, int (*)(const void *, const  void *), void (*)(void *));
+// void list_init(list_t *, void (*)(void *));
+// void set_init(set_t *, int (*)(const void *, const  void *), void (*)(void *));
+// void set_init(set_t *, void (*)(void *));
+void set_init(set_t *);
 int set_difference(set_t *, const set_t *, const set_t *);
 int set_insert(set_t *, const void *);
 int set_intersection(set_t *, const set_t *, const set_t *);

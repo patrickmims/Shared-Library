@@ -1,10 +1,10 @@
 #include "linkedlist.h"
 
-FILE *linkedlist_error()
+FILE *list_error()
 {
     FILE *filePtr = NULL;
 
-    if((filePtr = fopen("linkedlist_error.txt", "a")) == NULL)
+    if((filePtr = fopen("list_error.txt", "a")) == NULL)
         exit(EXIT_FAILURE);
 
     return filePtr;
@@ -15,7 +15,7 @@ void *new_node()
     void *node = NULL; 
 
     if((node = malloc(sizeof(void *))) == NULL)
-        fprintf(linkedlist_error(), "Error: new_node()\n");
+        fprintf(list_error(), "Error: new_node()\n");
 
     return node;
 }
