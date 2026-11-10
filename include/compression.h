@@ -7,6 +7,6 @@
 #include "assert.h"
 #include "zlib.h"
 
-int pack(FILE *, FILE *);
+int pack();
 
 #endif

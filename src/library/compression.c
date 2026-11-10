@@ -17,20 +17,26 @@
  * pending output.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define CHUNK_SIZE 16384
+#define CHUNK_SIZE (128 * 1024)
+#define LEVEL 6
 
-int pack(FILE *src, FILE *dest)
+int pack()
 {
-    int flush;
-    int rc;
+    int flush, rc;
+
+    FILE *src = NULL, *dest = NULL;
 
     unsigned char in[CHUNK_SIZE];
     unsigned char out[CHUNK_SIZE];
     unsigned items;
 
-    // FILE *destination = NULL; 
+    // Initialize reference to z_stream.
+    z_stream zs; 
 
-    z_stream zs;
+    puts("pack() - compression...");
+
+    if((src = fopen("source.txt", "a")) == NULL)
+        exit(EXIT_FAILURE);
 
     zs.avail_in = 0;
     zs.next_in = Z_NULL;
@@ -39,7 +45,14 @@ int pack(FILE *src, FILE *dest)
     zs.zfree = Z_NULL;
 
     // Initializes the internal stream state for compression.
-    if((rc = deflateInit(&zs, Z_DEFAULT_COMPRESSION)) != Z_OK)
+    /*
+    rc = deflateInit(&zs, LEVEL);
+
+    if(rc != Z_OK)
+        return rc;
+
+    */
+    if((rc = deflateInit(&zs, LEVEL)) != Z_OK)
         return rc;
 
     // Compress to the end of the file.
@@ -68,13 +81,6 @@ int pack(FILE *src, FILE *dest)
             rc = deflate(&zs, flush); // no bad return value 
             items = CHUNK_SIZE - zs.avail_out;
 
-            // fwrite(), writes n items of data, each size bytes long, 
-            // to the stream pointed to by stream, obtaining them from the
-            // location given by ptr.
-            // fwrite(const void *ptr, size_t size, size_t nmemb, FILE *);
-            //
-            // FILE *, Pointer to the FILE object that identifies the 
-            // stream where date will be written.
             if(fwrite(out, 1, items, dest) != items || ferror(dest))
             {
                 (void)deflateEnd(&zs);
@@ -87,11 +93,6 @@ int pack(FILE *src, FILE *dest)
 
     return Z_OK;
 }
-
-void *unpack(FILE *src) {}
-
-
-
 
 
 
