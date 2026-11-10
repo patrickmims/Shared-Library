@@ -20,6 +20,19 @@
 #define CHUNK_SIZE (128 * 1024)
 #define LEVEL 6
 
+z_stream z_init()
+{
+    z_stream stream;
+
+    stream.avail_in = 0;
+    stream.next_in = Z_NULL;
+    stream.opaque = Z_NULL;
+    stream.zalloc = Z_NULL;
+    stream.zfree = Z_NULL;
+
+    return stream;
+}
+
 int pack()
 {
     int flush, rc;
@@ -30,33 +43,17 @@ int pack()
     unsigned char out[CHUNK_SIZE];
     unsigned items;
 
-    // Initialize reference to z_stream.
-    z_stream zs; 
-
     puts("pack() - compression...");
 
     if((src = fopen("source.txt", "a")) == NULL)
         exit(EXIT_FAILURE);
 
-    zs.avail_in = 0;
-    zs.next_in = Z_NULL;
-    zs.opaque = Z_NULL;
-    zs.zalloc = Z_NULL;
-    zs.zfree = Z_NULL;
+    z_stream zs = z_init(); // <= Initialize reference to z_stream.
 
-    // Initializes the internal stream state for compression.
-    /*
-    rc = deflateInit(&zs, LEVEL);
-
-    if(rc != Z_OK)
-        return rc;
-
-    */
     if((rc = deflateInit(&zs, LEVEL)) != Z_OK)
         return rc;
 
-    // Compress to the end of the file.
-    do
+    do // <= Compress to the end of the file.
     {
         // fread() reads n items of data, each bytes long, from the stream
         // pointed to by stream, storing them at the location given by ptr.
