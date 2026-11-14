@@ -6,9 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "linkedlist.h"
 
 void create_process(pid_t);
-void create_thread(pthread_t, *(*fn)(*void), void *); 
-void fwrite_data(struct Node *data);
+void create_thread(pthread_t, void *(*)(void *), void *); 
+void *write_data(void *);
 
 #endif

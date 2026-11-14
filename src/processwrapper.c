@@ -18,7 +18,7 @@ void create_process(pid_t pid)
     struct Node l;
     struct Node *list = &l;
 
-    void *(*fn)(void *) = fwrite_data;
+    void *(*fn)() = write_data;
 
     switch(pid = fork())
     {
