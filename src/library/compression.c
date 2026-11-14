@@ -17,7 +17,7 @@
  * pending output.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define CHUNK_SIZE (128 * 1024)
+#define CHUNK_SIZE 4 
 #define LEVEL 6
 
 z_stream z_init()
@@ -33,52 +33,57 @@ z_stream z_init()
     return stream;
 }
 
-int pack()
+int pack(FILE *src, FILE *dest)
 {
     int flush, rc;
 
-    FILE *src = NULL, *dest = NULL;
-
-    unsigned char in[CHUNK_SIZE];
-    unsigned char out[CHUNK_SIZE];
+    unsigned char input[CHUNK_SIZE], output[CHUNK_SIZE];
     unsigned items;
-
-    puts("pack() - compression...");
-
-    if((src = fopen("source.txt", "a")) == NULL)
-        exit(EXIT_FAILURE);
 
     z_stream zs = z_init(); // <= Initialize reference to z_stream.
 
     if((rc = deflateInit(&zs, LEVEL)) != Z_OK)
         return rc;
 
+    printf("rc => %d\n", rc);
+
     do // <= Compress to the end of the file.
     {
         // fread() reads n items of data, each bytes long, from the stream
         // pointed to by stream, storing them at the location given by ptr.
-        zs.avail_in = fread(in, 1, CHUNK_SIZE, src);
+        puts("debug 1"); 
+        // zs.avail_in = fread(input, 1, CHUNK_SIZE, src);
+        zs.avail_in = fread(input, sizeof(*input), CHUNK_SIZE, src);
 
-        if(ferror(src))
+        puts("debug 2"); 
+
+        if(ferror(src)) // <= check if a write error occurred.
         {
+            puts("Error: Write error occurred.");
             (void)deflateEnd(&zs);
             return Z_ERRNO;
         }
 
+        puts("debug 3"); 
+
         flush = feof(src) ? Z_FINISH : Z_NO_FLUSH;
-        zs.next_in = in; // next input byte.
-        
-        // run deflate() on input until output buffer not full, finish
-        // compression if all of source has been read in.
+        puts("debug 4"); 
+        zs.next_in = input; // next input byte.
+        puts("debug 5"); 
+
+        // Run deflate() on input until output buffer not full. 
+        // Finish compression if all of source has been read in.
 
         do {
+            puts("debug 6"); 
             zs.avail_out = CHUNK_SIZE;
-            zs.next_out = out;
+            zs.next_out = output;
 
             rc = deflate(&zs, flush); // no bad return value 
+                                      //
             items = CHUNK_SIZE - zs.avail_out;
 
-            if(fwrite(out, 1, items, dest) != items || ferror(dest))
+            if(fwrite(output, 1, items, dest) != items || ferror(dest))
             {
                 (void)deflateEnd(&zs);
                 return Z_ERRNO;
@@ -86,7 +91,10 @@ int pack()
         } while(zs.avail_out == 0);
     } while(flush != Z_FINISH);
 
+    puts("debug 7"); 
     (void)deflateEnd(&zs);
+    fclose(src);
+    fclose(dest);
 
     return Z_OK;
 }
