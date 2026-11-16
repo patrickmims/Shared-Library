@@ -11,3 +11,7 @@ void create_thread(pthread_t thread, void *(*fn)(void *), void *arg)
 
     printf("create_thread() - [ %d ] \n", s);
 }
+// threadwrapper is passes 'fn', write_data(). It uses fwrite() to write
+// data to data.bin. 
+// This is file is called from StaticTest and data.bin will be located in that
+// directory. 

@@ -16,8 +16,11 @@ void create_process(pid_t pid)
     pthread_t thread;
 
     struct Node l;
-    struct Node *list = &l;
+    void *head = &l;
 
+    head = (struct Node *)new_node();
+
+    list_insert(head, 400);
     void *(*fn)() = write_data;
 
     switch(pid = fork())
@@ -26,7 +29,7 @@ void create_process(pid_t pid)
             fprintf(error_log(), "Error: creating process...");
             break;
         case 0: 
-            create_thread(thread, fn, list); // call thread.
+            create_thread(thread, fn, head); // call thread.
             break;
         default: 
             puts("actions...");
