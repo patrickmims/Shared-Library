@@ -34,3 +34,14 @@ void list_insert(void **list, const int item)
 
     printf("Item inserted: %d\n", item);
 } 
+
+void list_display(void *list)
+{
+    list = (struct Node *)list;
+    /*
+    for(list)
+    {
+
+    }
+    */
+}

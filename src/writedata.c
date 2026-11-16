@@ -13,8 +13,12 @@ void *filePtr()
 void *write_data(void *list)
 {
     list = (struct Node *)list;
+    int i;
 
-    list_insert(&list, 1000);
+    for(int i = 0; i < 20; i++)
+    {
+        list_insert(&list, (100 * i));
+    }
 
     // function pointer
     void *(*fp)() = filePtr;

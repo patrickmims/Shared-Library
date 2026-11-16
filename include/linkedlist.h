@@ -17,4 +17,5 @@ void list_insert(void **, const int);
 /* To be implemented
  */
 void list_destroy(struct Node *);
+void list_display(void *);
 #endif
