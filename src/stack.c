@@ -5,7 +5,7 @@ stack_t *create_stack(int size)
     stack_t s;
     stack_t *stack = &s;
 
-    if((stack = malloc(sizeof(void *))) == NULL)
+    if((stack = malloc(sizeof(stack_t *))) == NULL)
         exit(EXIT_FAILURE);
 
     if((stack->data = malloc(size * sizeof(int))) == NULL)
