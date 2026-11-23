@@ -15,6 +15,7 @@ void *write_data(void *list)
     list = (struct Node *)list;
     int i;
 
+    puts("Running inside thread...");
     for(int i = 0; i < 20; i++)
     {
         list_insert(&list, (100 * i));

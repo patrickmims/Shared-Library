@@ -2,7 +2,8 @@
 
 stack_t *create_stack(int size)
 {
-    stack_t *stack = NULL;
+    stack_t s;
+    stack_t *stack = &s;
 
     if((stack = malloc(sizeof(void *))) == NULL)
         exit(EXIT_FAILURE);
